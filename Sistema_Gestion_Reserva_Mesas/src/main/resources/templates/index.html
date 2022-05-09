@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+<meta charset="UTF-8" />
+<title>Control de empleados</title>
+
+</head>
+<body>
+	
+	<header th:fragment="header">
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container">
+			<a class="navbar-brand" style="font-variant: small-caps" href="/index">Sistema de Gestión de Reservas del Restaurante</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarNav" aria-controls="navbarNav"
+				aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			</div>
+		</nav>
+	</header>
+	
+	<section class="w-100 h-75" style="background-color: #508bfc;">
+		<div th:if="${param.logout}">
+			<div class="alert alert-primary alert-dismissible fade show"
+				role="alert">
+				Ha cerrado sesión correctamente
+				<button type="button" class="btn-close" data-bs-dismiss="alert"
+					aria-label="Close">
+					<span aria-hidden="true"></span>
+				</button>
+			</div>
+		</div>
+		<div class="container py-5 h-100">
+			<div
+				class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-8 col-lg-6 col-xl-5">
+					<div class="card shadow-2-strong" style="border-radius: 1rem;">
+						<div class="card-body p-5 text-center">
+
+
+							<h3 class="mb-5">Inicio de sesión</h3>
+							<div th:if="${param.error}">
+								<div class="alert alert-danger alert-dismissible fade show"
+									role="alert">
+									Usuario o contraseña incorrectos
+									<button type="button" class="btn-close" data-bs-dismiss="alert"
+										aria-label="Close">
+										<span aria-hidden="true"></span>
+									</button>
+								</div>
+							</div>
+
+
+							<form th:action="@{/index}" method="post">
+								<div class="form-outline mb-4">
+									<label class="form-label" for="typeEmailX-2">Nombre de
+										usuario:</label> <input type="text" id="username" name="username"
+										class="form-control form-control-lg" />
+								</div>
+
+								<div class="form-outline mb-4">
+									<label class="form-label" for="typePasswordX-2">Contraseña:</label>
+									<input type="password" id="password" name="password"
+										class="form-control form-control-lg" />
+								</div>
+
+								<button class="btn btn-primary btn-lg btn-block" type="submit">Iniciar
+									sesión</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<br>
+
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head th:replace="layout/layout :: head">
+<meta charset="UTF-8">
+	<!-- <style type="text/css">
+		.resaltar{
+			cursor: default;
+			background-color: yellow;
+			color: crimson;
+		}
+	</style> -->
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header><br>
+<!-- 	<div class="container">
+		<form th:action="@{/lista_reservas/}"> + ${reserva.id}
+			<div class="d-flex flex-row bd-highlight mb-3">			
+				<div class="p-2 bd-highlight">
+					<label class="form-label fw-bold fs-5">Filtrar:</label>
+				</div>				
+				<div class="p-2 bd-highlight">
+					<input type="date" name="fechaClave" class="form-control" id="fechaClave" th:value="${fechaClave}" placeholder="buscar" required>
+				</div>				
+				<div class="p-2 bd-highlight">
+					<input type="submit" class="btn btn-primary" value="Buscar">
+					&nbsp;&nbsp;
+					<input type="button" class="btn btn-secondary" value="Limpiar" onclick="limpiar">
+				</div>			
+			</div>
+		</form>
+	</div> -->
+	<div class="py-4 ml-5 mr-5">
+		<div class="card bg-light">
+			<div class="card-header text-info text-darken text-center fs-4 fw-bold" th:text="${titulo}" style="font-variant: small-caps"></div>
+			<div class="card-body">
+				<h4 class="card-title">
+				<form th:action="@{/lista_reservas/}"> 
+					<div class="d-flex bd-highlight mb-3">
+						<div class="me-auto p-2 bd-highlight">
+							<a th:href="@{/formulario_reserva}" class="btn btn-primary">Agregar reserva</a>
+						</div>					
+					
+							<div class="d-flex flex-row bd-highlight mb-3">			
+								<div class="p-2 bd-highlight">
+									<label class="form-label fw-bold fs-5">Filtrar:</label>
+								</div>				
+								<div class="p-2 bd-highlight">
+									<input type=date name="fechaClave" class="form-control" id="fechaClave" th:value="${fechaClave}" aria-describedby="Seleccione fecha" required>
+								</div>				
+								<div class="p-2 bd-highlight">
+									<input type="submit" class="btn btn-info" value="Buscar">
+									&nbsp;&nbsp;
+									<input type="button" class="btn btn-secondary" value="Limpiar" onclick="limpiar()">
+								</div>			
+							</div>
+						
+						<div class="me-auto p-2 bd-highlight">
+							<label class="col-form-label col-form-label-lg"></label>
+						</div>
+						<div class="me-auto p-2 bd-highlight">
+							<label class="col-form-label col-form-label-lg"></label>
+						</div>
+						<div class="me-auto p-2 bd-highlight">
+							<label class="col-form-label col-form-label-lg"></label>
+						</div>						
+						<div class="p-2 bd-highlight">	
+							<a th:href="@{/exportarReservasPDF}" class="btn btn-danger">Exportar a PDF</a>
+						</div>
+						<div class="p-2 bd-highlight">	
+							<a th:href="@{/exportarReservasExcel}" class="btn btn-success">Exportar a Excel</a>
+						</div>
+					</div>
+					</form>
+				</h4>
+				<table class="table table-striped text-center">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Cliente</th>
+							<th>Teléfono</th>
+							<th>Fecha</th>
+							<th>Hora</th>
+							<th>Comedor</th>
+							<th>Mesa</th>
+							<th>Comensales</th>
+							<th>Petición especial</th>
+							<th>Detalles</th>
+							<th>Editar</th>
+							<th>Eliminar</th>
+						</tr>
+					</thead>				
+					<tbody>
+						<tr th:each="reserva : ${listaReservas}">
+							<td th:text="${reserva.id}"></td>
+							<td th:text="${reserva.cliente}"></td>
+							<td th:text="${reserva.telefono}"></td>
+							<td th:text="${#temporals.format(reserva.fecha,'dd/MM/yyyy')}"></td>
+							<td th:text="${#temporals.format(reserva.hora,'HH:mm')}"></td>
+							<td th:text="${reserva.comedor}"></td>
+							<td th:text="${reserva.mesa.id}"></td>
+							<td th:text="${reserva.comensales}"></td>
+							<td th:text="${reserva.peticionEspecial}"></td>
+							<td><a class="btn btn-info btn-sm" th:href="@{/ver_detalle_reserva/} + ${reserva.id}">Detalle</a></td>
+							<td><a class="btn btn-warning btn-sm" th:href="@{/formulario_reserva/} + ${reserva.id}">Editar</a></td>
+							<td><a class="btn btn-danger btn-sm" th:href="@{/eliminar_reserva/} + ${reserva.id}" onclick="return confirm('¿Está seguro de eliminar la reserva?');">Eliminar</a></td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</div>
+		</div>
+	</div>
+	<script type="text/javascript">
+		function limpiar(){
+			window.location="/";
+		}
+	</script>
+	<script type="text/javascript">
+		$(document).ready(() => {
+			$('th').each(function(columna){
+				$(this).hover(function(){
+					$(this).addClass('resaltar');
+				}, function(){
+					$(this).removeClass('resaltar');
+				});
+				$(this).click(function(){
+					let registros = $('table').find('tbody > tr').get();
+					registros.sort(function(a,b){
+						let valor1 = $(a).children('td').eq
+						(columna).text().toUpperCase();
+						let valor2 = $(b).children('td').eq
+						(columna).text().toUpperCase();
+						
+						return valor1 < valor2 ? -1 : valor1 > valor2 ? 1 : 0;
+					});
+					
+					$.each(registros, function(indice,elemento){
+						$('tbody').append(elemento);
+					});
+				});
+			});
+		});
+	</script>
+	
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>

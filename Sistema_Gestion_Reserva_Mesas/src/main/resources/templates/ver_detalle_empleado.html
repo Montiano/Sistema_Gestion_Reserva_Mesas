@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/layout :: head">
+<meta charset="UTF-8">
+
+</head>
+<body>
+
+	<header th:replace="layout/layout :: header"></header>
+	<br>
+	<div class="card bg-light col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+		<div class="card bg-light">
+			<div class="card-header text-primary text-center fw-bold fs-5" th:text="${titulo}"></div>
+			<div class="card-body">
+				<ul class="list-group">
+					<li class="list-group-item active" th:inline="text"><strong>Nombre: </strong>[[${empleado.nombre}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Apellido: </strong>[[${empleado.apellido}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Email: </strong>[[${empleado.email}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Fecha: </strong>[[${empleado.fecha}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Teléfono: </strong>[[${empleado.telefono}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Sexo: </strong>[[${empleado.sexo}]]</li>
+					<li class="list-group-item" th:inline="text"><strong>Sueldo: </strong>[[${empleado.sueldo}]]</li>
+				</ul>
+			</div>
+		</div>		
+	</div>
+	<br>
+	<button class="btn btn-danger position-relative start-50" onclick="goBack()">&laquo;Volver&laquo;</button>
+	<footer th:replace="layout/layout :: footer"></footer>
+</body>
+</html>
